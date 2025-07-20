@@ -35,6 +35,24 @@ A modern, full-stack web application for managing prescriptions, medications, ad
 
 ---
 
+
+## Screenshots
+
+![alt text](<Screenshot (1852).png>)
+![alt text](<Screenshot (1853).png>)
+![alt text](<Screenshot (1854).png>)
+![alt text](<Screenshot (1855).png>)
+![alt text](<Screenshot (1856).png>)
+![alt text](<Screenshot (1857).png>)
+![alt text](<Screenshot (1858).png>)
+![alt text](<Screenshot (1859).png>)
+![alt text](<Screenshot (1860).png>)
+![alt text](<Screenshot (1861).png>)
+![alt text](<Screenshot (1862).png>)
+![alt text](<Screenshot (1863).png>)
+![alt text](<Screenshot (1864).png>)
+![alt text](<Screenshot (1865).png>)
+
 ## Folder Structure
 
 ```
@@ -70,8 +88,9 @@ medication-backend/
 
 ### 1. Clone the repository
 ```bash
-git clone <repo-url>
+git clone https://github.com/BharathGovindula/Frontend-Prescription-and-Medication-Management-Tool.git
 cd Prescription-and-Medication-Management-Tool
+cd medication-frontend
 ```
 
 ### 2. Install dependencies
@@ -105,6 +124,7 @@ CLOUDINARY_URL=your_cloudinary_url
 ```bash
 cd medication-backend
 npm start
+redis-server
 ```
 **Frontend:**
 ```bash

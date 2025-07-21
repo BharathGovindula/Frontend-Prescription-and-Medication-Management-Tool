@@ -1,9 +1,9 @@
 import axios from 'axios';
 import { getToken, setToken, removeToken } from '../utils/token';
 
-
+// Set the baseURL to the Render backend
 const API = axios.create({
-  baseURL: 'https://backend-prescription-and-medication-4914.onrender.com', // ✅ Uses the VITE_ environment variable
+  baseURL: 'https://backend-prescription-and-medication-4914.onrender.com',
 });
 
 API.interceptors.request.use((config) => {

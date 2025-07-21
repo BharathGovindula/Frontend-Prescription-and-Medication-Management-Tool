@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import { medicationService } from '../services/medicationService';
+import { API } from '../services/userService';
 import { 
   Box, 
   Button, 
@@ -78,16 +79,16 @@ const UploadPrescription = () => {
 
   const fetchMedicationsAndPrescriptions = async () => {
     try {
-      const res = await axios.get('/api/medications', { headers: { Authorization: `Bearer ${getToken()}` } });
-      const allPrescriptions = (res.data || []).map(med => ({
+      const meds = await medicationService.getMedications();
+      const allPrescriptions = (meds || []).map(med => ({
         medicationName: med.name,
         prescriptionImage: med.prescriptionDetails?.prescriptionImage,
         uploadedAt: med.createdAt,
       })).filter(p => p.prescriptionImage);
       setPrescriptions(allPrescriptions);
-      setMedications(res.data || []);
+      setMedications(meds || []);
     } catch (err) {
-      setError('Failed to load prescriptions',err);
+      setError('Failed to load prescriptions', err);
     }
   };
 
@@ -124,7 +125,7 @@ const UploadPrescription = () => {
     const formData = new FormData();
     formData.append('prescription', file);
     try {
-      const res = await axios.post(`/api/upload?medicationId=${selectedMedication}`, formData, {
+      const res = await API.post(`/api/upload?medicationId=${selectedMedication}`, formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
           Authorization: `Bearer ${getToken()}`,
@@ -191,7 +192,7 @@ const UploadPrescription = () => {
     };
     console.log('Submitting medication payload:', payload);
     try {
-      await axios.post('/api/medications', payload, { headers: { Authorization: `Bearer ${getToken()}` } });
+      await medicationService.createMedication(payload);
       setMedName('');
       setMedDosage('');
       setMedFrequency('');
@@ -243,7 +244,7 @@ const UploadPrescription = () => {
   const fetchSmartSchedule = async () => {
     setSmartLoading(true);
     try {
-      const res = await axios.get('/api/analytics/smart-schedule', { headers: { Authorization: `Bearer ${getToken()}` } });
+      const res = await API.get('/api/analytics/smart-schedule', { headers: { Authorization: `Bearer ${getToken()}` } });
       setSmartTimes(res.data.recommended || []);
       setSmartExplanation(res.data.explanation || '');
       setShowSmart(true);

@@ -53,7 +53,6 @@ function App() {
 
 // Wrap App with Router to provide useLocation
 function AppWithRouter() {
-  console.log(import.meta.env.VITE_API_URL, 'bharat');
 
   return (
     <Router>

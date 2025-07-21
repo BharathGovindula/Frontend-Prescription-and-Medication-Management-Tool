@@ -1,7 +1,10 @@
 import axios from 'axios';
 import { getToken, setToken, removeToken } from '../utils/token';
 
-const API = axios.create();
+
+const API = axios.create({
+  baseURL: import.meta.env.VITE_API_URL, // ✅ Uses the VITE_ environment variable
+});
 
 API.interceptors.request.use((config) => {
   const token = getToken();
@@ -12,6 +15,8 @@ API.interceptors.request.use((config) => {
 });
 
 export const login = async (credentials) => {
+  console.log(API.baseURL,'bharat');
+  
   const res = await API.post('/api/auth/login', credentials);
   setToken(res.data.token);
   return res.data;
@@ -65,6 +70,8 @@ export const refreshToken = async () => {
     setToken(res.data.token);
     return res.data.token;
   } catch (err) {
+    console.log(err);
+    
     removeToken();
     return null;
   }

@@ -66,7 +66,7 @@ export default defineConfig({
   ],
   server: {
     proxy: {
-      '/api': 'http://localhost:5000',
+      '/api': 'https://backend-prescription-and-medication-4914.onrender.com',
     },
   },
 });

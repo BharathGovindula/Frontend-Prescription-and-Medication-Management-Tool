@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
 import { getLogs, setLogs as setOfflineLogs, clearLogs } from '../utils/db';
-import { medicationService } from '../services/medicationService';
+import axios from 'axios';
 import { getToken } from '../utils/token';
 
 export function useOfflineSync() {
@@ -12,7 +12,7 @@ export function useOfflineSync() {
     if (offlineLogs.length === 0) return;
     for (const log of offlineLogs) {
       try {
-        await medicationService.logMedicationAction(log.medicationId, log.status, log.notes);
+        await axios.post(`/api/medications/${log.medicationId}/log`, log, { headers: { Authorization: getToken() } });
       } catch (err) {
         // Optionally handle error
       }

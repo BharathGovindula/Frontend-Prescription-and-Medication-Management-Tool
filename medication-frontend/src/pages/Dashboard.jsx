@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { medicationService } from '../services/medicationService';
-import { API } from '../services/userService';
+import axios from 'axios';
 import {
   Box,
   Heading,
@@ -162,7 +161,7 @@ const Dashboard = () => {
       try {
         const statuses = {};
         for (const med of medications) {
-          const res = await API.get(`/medications/${med._id}/renewals`);
+          const res = await axios.get(`/api/medications/${med._id}/renewals`, { headers: { Authorization: `Bearer ${getToken()}` } });
           if (res.data && res.data.length > 0) {
             // Show the latest request
             const latest = res.data[res.data.length - 1];
@@ -180,7 +179,7 @@ const Dashboard = () => {
 
   const fetchAllRenewals = async () => {
     try {
-      const res = await API.get('/medications/renewals');
+      const res = await axios.get('/api/medications/renewals', { headers: { Authorization: `Bearer ${getToken()}` } });
       setAllRenewals(res.data);
     } catch (err) {
       // handle error
@@ -195,7 +194,7 @@ const Dashboard = () => {
 
   const fetchConflicts = async () => {
     try {
-      const res = await API.get('/medications/conflicts');
+      const res = await axios.get('/api/medications/conflicts', { headers: { Authorization: `Bearer ${getToken()}` } });
       setConflicts(res.data || []);
     } catch(err) {
       console.error(err);
@@ -204,7 +203,7 @@ const Dashboard = () => {
 
   const fetchInteractionWarnings = async () => {
     try {
-      const res = await API.get('/medications/interactions');
+      const res = await axios.get('/api/medications/interactions', { headers: { Authorization: `Bearer ${getToken()}` } });
       setInteractionWarnings(res.data || []);
     }  catch(err) {
       console.error(err);
@@ -235,7 +234,7 @@ const Dashboard = () => {
       return;
     }
     try {
-      await medicationService.logAction(medId, logData);
+      await axios.post(`/api/medications/${medId}/log`, logData, { headers: { Authorization: `Bearer ${getToken()}` } });
       setActionMessage(`Action '${status}' logged!`);
       toast({
         title: `Action '${status}' logged!`,
@@ -284,7 +283,7 @@ const Dashboard = () => {
     };
     console.log('Submitting medication update payload:', payload);
     try {
-      await medicationService.updateMedication(editingMed._id, payload);
+      await axios.put(`/api/medications/${editingMed._id}`, payload, { headers: { Authorization: `Bearer ${getToken()}` } });
       setActionMessage('Medication updated!');
       toast({
         title: 'Medication updated',
@@ -313,7 +312,7 @@ const Dashboard = () => {
     if (!deletingMed) return;
     setDeleteLoading(true);
     try {
-      await medicationService.deleteMedication(deletingMed._id);
+      await axios.delete(`/api/medications/${deletingMed._id}`, { headers: { Authorization: `Bearer ${getToken()}` } });
       setActionMessage('Medication deleted!');
       toast({
         title: 'Medication deleted',
@@ -354,7 +353,7 @@ const Dashboard = () => {
       // isActive: adjustingDosageMed.isActive, // optionally include if needed
     };
     try {
-      await medicationService.updateMedication(adjustingDosageMed._id, payload);
+      await axios.put(`/api/medications/${adjustingDosageMed._id}`, payload, { headers: { Authorization: `Bearer ${getToken()}` } });
       setActionMessage('Dosage updated!');
       fetchMedications();
       setAdjustingDosageMed(null);
@@ -383,7 +382,7 @@ const Dashboard = () => {
     setLogsLoading((prev) => ({ ...prev, [medId]: true }));
     setLogsError((prev) => ({ ...prev, [medId]: '' }));
     try {
-      const res = await medicationService.getLogs(medId);
+      const res = await axios.get(`/api/medications/${medId}/logs`, { headers: { Authorization: `Bearer ${getToken()}` } });
       setLogs((prev) => ({ ...prev, [medId]: res.data }));
     } catch (err) {
       console.error(err);
@@ -407,7 +406,7 @@ const Dashboard = () => {
     if (!renewalMed) return;
     setRenewalLoading(true);
     try {
-      const res = await API.post(`/medications/${renewalMed._id}/renew`, { message: renewalMessage });
+      const res = await axios.post(`/api/medications/${renewalMed._id}/renew`, { message: renewalMessage }, { headers: { Authorization: `Bearer ${getToken()}` } });
       setRenewalStatus((prev) => ({ ...prev, [renewalMed._id]: { status: 'pending', requestedAt: new Date().toISOString() } }));
       closeRenewalModal();
       toast({
@@ -435,10 +434,10 @@ const Dashboard = () => {
   const handleRenewalAction = async (medId, requestId, status) => {
     setRenewalActionLoading(true);
     try {
-      await API.put(`/medications/${medId}/renewals/${requestId}`, { status, response: renewalResponse });
+      await axios.put(`/api/medications/${medId}/renewals/${requestId}`, { status, response: renewalResponse }, { headers: { Authorization: `Bearer ${getToken()}` } });
       setRenewalResponse('');
       // Refresh renewal statuses
-      const res = await API.get(`/medications/${medId}/renewals`);
+      const res = await axios.get(`/api/medications/${medId}/renewals`, { headers: { Authorization: `Bearer ${getToken()}` } });
       setRenewalStatus((prev) => ({ ...prev, [medId]: res.data[res.data.length - 1] }));
       if (userRole !== 'user') {
         // Refresh all renewals for doctor/admin

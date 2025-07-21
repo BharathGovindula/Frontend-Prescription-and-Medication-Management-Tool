@@ -4,6 +4,10 @@ A modern, full-stack web application for managing prescriptions, medications, ad
 
 ---
 
+## Deployed Links
+frontend - https://medicinemanagementtool.netlify.app/
+backend - https://backend-prescription-and-medication-4914.onrender.com
+
 ## Features
 
 - **User Roles:** Patient, Doctor, Admin with role-based access and UI

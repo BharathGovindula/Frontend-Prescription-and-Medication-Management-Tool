@@ -3,7 +3,7 @@ import { getToken, setToken, removeToken } from '../utils/token';
 
 
 const API = axios.create({
-  baseURL: import.meta.env.VITE_API_URL, // ✅ Uses the VITE_ environment variable
+  baseURL: 'https://backend-prescription-and-medication-4914.onrender.com', // ✅ Uses the VITE_ environment variable
 });
 
 API.interceptors.request.use((config) => {

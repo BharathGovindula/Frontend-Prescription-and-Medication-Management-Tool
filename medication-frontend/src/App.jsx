@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter as Router, Route, Routes, Navigate, useLocation } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import Login from './pages/Login.jsx';
 import Register from './pages/Register.jsx';
@@ -53,7 +53,8 @@ function App() {
 
 // Wrap App with Router to provide useLocation
 function AppWithRouter() {
-  console.log(import.meta.env.VITE_API_URL)
+  console.log(import.meta.env.VITE_API_URL, 'bharat');
+
   return (
     <Router>
       <App />

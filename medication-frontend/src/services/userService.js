@@ -1,5 +1,5 @@
 import api from '../utils/axios';
-import { setToken, removeToken } from '../utils/token';
+import { setToken, removeToken, getToken } from '../utils/token';
 
 export const login = async (credentials) => {
   const res = await api.post('/api/auth/login', credentials);
@@ -18,32 +18,32 @@ export const logout = async () => {
 };
 
 export const fetchProfile = async () => {
-  const res = await API.get('/api/profile');
+  const res = await api.get('/api/profile');
   return res.data;
 };
 
 export const updateProfile = async (profile) => {
-  const res = await API.put('/api/profile', profile);
+  const res = await api.put('/api/profile', profile);
   return res.data;
 };
 
 export const fetchDoctors = async () => {
-  const res = await API.get('/api/profile');
+  const res = await api.get('/api/profile');
   return res.data.doctors || [];
 };
 
 export const updateDoctors = async (doctors) => {
-  const res = await API.put('/api/profile/doctor', { doctors });
+  const res = await api.put('/api/profile/doctor', { doctors });
   return res.data;
 };
 
 export const requestPasswordReset = async (email) => {
-  const res = await API.post('/api/auth/password-reset-request', { email });
+  const res = await api.post('/api/auth/password-reset-request', { email });
   return res.data;
 };
 
 export const resetPassword = async (token, password) => {
-  const res = await API.post('/api/auth/password-reset', { token, password });
+  const res = await api.post('/api/auth/password-reset', { token, password });
   return res.data;
 };
 
@@ -51,7 +51,7 @@ export const refreshToken = async () => {
   const token = getToken();
   if (!token) return null;
   try {
-    const res = await API.post('/api/auth/refresh-token');
+    const res = await api.post('/api/auth/refresh-token');
     setToken(res.data.token);
     return res.data.token;
   } catch (err) {

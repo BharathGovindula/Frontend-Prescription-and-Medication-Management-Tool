@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback } from 'react';
-import axios from 'axios';
+import api from '../utils/axios';
 import { getToken } from '../utils/token';
 
 export function useSuggestions() {
@@ -11,7 +11,7 @@ export function useSuggestions() {
     setSuggestionsLoading(true);
     setSuggestionsError('');
     try {
-      const res = await axios.get('/api/analytics/suggestions', { headers: { Authorization: `Bearer ${getToken()}` } });
+      const res = await api.get('/api/analytics/suggestions');
       setSuggestions(res.data.suggestions || []);
     } catch (err) {
       setSuggestionsError('Failed to load personalized suggestions');
@@ -31,4 +31,4 @@ export function useSuggestions() {
     fetchSuggestions,
     setSuggestions,
   };
-} 
+}

@@ -191,10 +191,6 @@ A comprehensive deployment guide is available in the `DEPLOYMENT_GUIDE.md` file,
 
 ---
 
-## License
-MIT
-
----
 
 ## Acknowledgements
 - Chakra UI, React, Express, MongoDB, Redis, Cloudinary, Nodemailer, Chart.js, jsPDF, and all open-source contributors

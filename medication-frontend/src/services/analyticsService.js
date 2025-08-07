@@ -1,29 +1,20 @@
-import axios from 'axios';
-import { getToken } from '../utils/token';
+import api from '../utils/axios';
 
 export const analyticsService = {
   async getAdherenceStats() {
-    const res = await axios.get('/api/analytics/adherence', {
-      headers: { Authorization: `Bearer ${getToken()}` }
-    });
+    const res = await api.get('/api/analytics/adherence');
     return res.data;
   },
   async getTrends() {
-    const res = await axios.get('/api/analytics/trends', {
-      headers: { Authorization: `Bearer ${getToken()}` }
-    });
+    const res = await api.get('/api/analytics/trends');
     return res.data;
   },
   async getStreaks() {
-    const res = await axios.get('/api/analytics/streaks-badges', {
-      headers: { Authorization: `Bearer ${getToken()}` }
-    });
+    const res = await api.get('/api/analytics/streaks-badges');
     return res.data;
   },
   async getSuggestions() {
-    const res = await axios.get('/api/analytics/suggestions', {
-      headers: { Authorization: `Bearer ${getToken()}` }
-    });
+    const res = await api.get('/api/analytics/suggestions');
     return res.data;
   },
-}; 
+};

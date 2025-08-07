@@ -1,18 +1,13 @@
-import axios from 'axios';
-import { getToken } from '../utils/token';
+import api from '../utils/axios';
 
 export const reminderService = {
   async getReminders() {
-    const res = await axios.get('/api/reminders', {
-      headers: { Authorization: `Bearer ${getToken()}` }
-    });
+    const res = await api.get('/api/reminders');
     return res.data;
   },
   async updateReminder(id, data) {
-    const res = await axios.patch(`/api/reminders/${id}`, data, {
-      headers: { Authorization: `Bearer ${getToken()}` }
-    });
+    const res = await api.patch(`/api/reminders/${id}`, data);
     return res.data;
   },
   // Add more methods as needed (create, delete, etc.)
-}; 
+};

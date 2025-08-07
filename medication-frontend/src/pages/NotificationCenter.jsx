@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+import api from '../utils/axios';
 import {
   Box, 
   Heading, 
@@ -97,9 +97,7 @@ const NotificationCenter = () => {
       let data = { status };
       if (status === 'snoozed') data.snoozeMinutes = 10;
 
-      const res = await axios.patch(`/api/reminders/${reminderId}`, data, {
-        headers: { Authorization: `Bearer ${getToken()}` },
-      });
+      const res = await api.patch(`/api/reminders/${reminderId}`, data);
 
       if (status === 'snoozed') {
         toast({

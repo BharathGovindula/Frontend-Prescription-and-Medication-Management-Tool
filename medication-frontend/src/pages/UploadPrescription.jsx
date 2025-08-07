@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import api from '../utils/axios';
 import { 
   Box, 
   Button, 
@@ -78,7 +78,7 @@ const UploadPrescription = () => {
 
   const fetchMedicationsAndPrescriptions = async () => {
     try {
-      const res = await axios.get('/api/medications', { headers: { Authorization: `Bearer ${getToken()}` } });
+      const res = await api.get('/api/medications');
       const allPrescriptions = (res.data || []).map(med => ({
         medicationName: med.name,
         prescriptionImage: med.prescriptionDetails?.prescriptionImage,
@@ -124,10 +124,9 @@ const UploadPrescription = () => {
     const formData = new FormData();
     formData.append('prescription', file);
     try {
-      const res = await axios.post(`/api/upload?medicationId=${selectedMedication}`, formData, {
+      const res = await api.post(`/api/upload?medicationId=${selectedMedication}`, formData, {
         headers: {
-          'Content-Type': 'multipart/form-data',
-          Authorization: `Bearer ${getToken()}`,
+          'Content-Type': 'multipart/form-data'
         },
       });
       setMessage('Upload successful! URL: ' + res.data.url);
@@ -191,7 +190,7 @@ const UploadPrescription = () => {
     };
     console.log('Submitting medication payload:', payload);
     try {
-      await axios.post('/api/medications', payload, { headers: { Authorization: `Bearer ${getToken()}` } });
+      await api.post('/api/medications', payload);
       setMedName('');
       setMedDosage('');
       setMedFrequency('');
@@ -243,7 +242,7 @@ const UploadPrescription = () => {
   const fetchSmartSchedule = async () => {
     setSmartLoading(true);
     try {
-      const res = await axios.get('/api/analytics/smart-schedule', { headers: { Authorization: `Bearer ${getToken()}` } });
+      const res = await api.get('/api/analytics/smart-schedule');
       setSmartTimes(res.data.recommended || []);
       setSmartExplanation(res.data.explanation || '');
       setShowSmart(true);
@@ -656,4 +655,4 @@ const UploadPrescription = () => {
   );
 };
 
-export default UploadPrescription; 
+export default UploadPrescription;

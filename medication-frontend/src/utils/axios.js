@@ -1,7 +1,9 @@
 import axios from 'axios';
 import { refreshToken, getToken } from './token';
 
-const api = axios.create();
+const api = axios.create({
+  baseURL: import.meta.env.VITE_API_URL || 'https://backend-prescription-and-medication-4914.onrender.com'
+});
 
 api.interceptors.request.use((config) => {
   const token = getToken();
@@ -27,4 +29,4 @@ api.interceptors.response.use(
   }
 );
 
-export default api; 
+export default api;

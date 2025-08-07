@@ -1,32 +1,19 @@
-import axios from 'axios';
-import { getToken, setToken, removeToken } from '../utils/token';
-
-
-const API = axios.create();
-
-API.interceptors.request.use((config) => {
-  const token = getToken();
-  if (token) {
-    config.headers.Authorization = `Bearer ${token}`;
-  }
-  return config;
-});
+import api from '../utils/axios';
+import { setToken, removeToken } from '../utils/token';
 
 export const login = async (credentials) => {
-  console.log(API.baseURL,'bharat');
-  
-  const res = await API.post('/api/auth/login', credentials);
+  const res = await api.post('/api/auth/login', credentials);
   setToken(res.data.token);
   return res.data;
 };
 
 export const register = async (credentials) => {
-  const res = await API.post('/api/auth/register', credentials);
+  const res = await api.post('/api/auth/register', credentials);
   return res.data;
 };
 
 export const logout = async () => {
-  await API.post('/api/auth/logout');
+  await api.post('/api/auth/logout');
   removeToken();
 };
 
@@ -73,4 +60,4 @@ export const refreshToken = async () => {
     removeToken();
     return null;
   }
-}; 
+};

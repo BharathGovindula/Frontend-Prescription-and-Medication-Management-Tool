@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+import api from '../utils/axios';
 import {
   Box, Heading, Text, Table, Thead, Tbody, Tr, Th, Td, Spinner, Alert, AlertIcon, Select, Input, Button, HStack, VStack, Badge, Stat, StatLabel, StatNumber, StatHelpText, Container, Flex, AlertTitle, SimpleGrid, Tooltip
 } from '@chakra-ui/react';
@@ -161,7 +161,7 @@ const Reports = () => {
 
   const fetchMedications = async () => {
     try {
-      const res = await axios.get('/api/medications', { headers: { Authorization: `Bearer ${getToken()}` } });
+      const res = await api.get('/api/medications');
       setMedications(res.data || []);
     } catch (err) {
       // ignore
@@ -177,7 +177,7 @@ const Reports = () => {
       if (filters.status) params.status = filters.status;
       if (filters.startDate) params.startDate = filters.startDate;
       if (filters.endDate) params.endDate = filters.endDate;
-      const res = await axios.get('/api/analytics/logs', { params, headers: { Authorization: `Bearer ${getToken()}` } });
+      const res = await api.get('/api/analytics/logs', { params });
       setLogs(res.data || []);
       summarize(res.data || []);
     } catch (err) {
@@ -198,7 +198,7 @@ const Reports = () => {
     setAiLoading(true);
     setAiError('');
     try {
-      const res = await axios.get('/api/analytics/ai-adherence', { headers: { Authorization: `Bearer ${getToken()}` } });
+      const res = await api.get('/api/analytics/ai-adherence');
       setAiAnalysis(res.data);
     } catch (err) {
       setAiError('Failed to load AI adherence analysis');
@@ -218,7 +218,7 @@ const Reports = () => {
     setPredictiveLoading(true);
     setPredictiveError('');
     try {
-      const res = await axios.get('/api/analytics/predictive-reminder', { headers: { Authorization: `Bearer ${getToken()}` } });
+      const res = await api.get('/api/analytics/predictive-reminder');
       setPredictiveSuggestions(res.data.suggestions || []);
     } catch (err) {
       setPredictiveError('Failed to load predictive reminder suggestions');
@@ -238,7 +238,7 @@ const Reports = () => {
     setSuggestionsLoading(true);
     setSuggestionsError('');
     try {
-      const res = await axios.get('/api/analytics/suggestions', { headers: { Authorization: `Bearer ${getToken()}` } });
+      const res = await api.get('/api/analytics/suggestions');
       setSuggestions(res.data.suggestions || []);
     } catch (err) {
       setSuggestionsError('Failed to load personalized suggestions');

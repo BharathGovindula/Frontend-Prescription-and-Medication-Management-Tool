@@ -300,6 +300,9 @@ const Navbar = () => {
                   <Button as={Link} to="/profile" variant="ghost" justifyContent="flex-start" onClick={onClose}>
                     Profile
                   </Button>
+                  <Button as={Link} to="/reports" variant="ghost" justifyContent="flex-start" onClick={onClose}>
+                    Reports
+                  </Button>
                   <Button onClick={() => { handleLogout(); onClose(); }} colorScheme="red" mt={4}>
                     Logout
                   </Button>
